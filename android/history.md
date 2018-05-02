@@ -1,5 +1,8 @@
 # Keyman for Android
 
+## 2018-05-04 10.0.383 beta
+* Increase compatibility with more vendor file browsers for installing .kmp packages (#629)
+
 ## 2018-04-30 10.0.380 beta
 * Fix OSK missing some keys on older Android configurations (#304)
 

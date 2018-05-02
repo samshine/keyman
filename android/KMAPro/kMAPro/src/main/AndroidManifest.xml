@@ -57,16 +57,92 @@
                 <data android:scheme="keyman" android:host="localhost" android:path="/open" />
             </intent-filter>
 
+            <!--
+                 Capture content by MIME type, which is how Gmail broadcasts
+                 attachment open requests.  pathPattern and file extensions
+                 are ignored, so the MIME type *MUST* be explicit, otherwise
+                 we will match absolutely every file opened.
+            -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <!-- Android's implementation of PatternMatcher for pathPattern limits special characters to '.', '*', and '\\' -->
-                <data android:scheme="file" android:host="*" android:mimeType="application/octet-stream" android:pathPattern=".*\\.kmp" />
+                <data android:scheme="content" android:mimeType="application/kmp" />
+                <data android:scheme="content" android:mimeType="application/vnd.kmp" />
+                <data android:scheme="content" android:mimeType="application/x-vnd.kmp" />
 
                 <!-- Android DownloadManager doesn't have ".kmp" in the names it passes to the intent -->
-                <data android:scheme="content" android:host="*" android:mimeType="application/octet-stream" android:pathPattern=".*" />
+                <data android:scheme="content" android:mimeType="application/octet-stream" />
+                <data android:scheme="content" android:mimeType="application/zip" />
+            </intent-filter>
+
+            <!-- Experiment for Samsung MyFiles browser -->
+            <intent-filter>
+                <action android:name="com.sec.android.app.myfiles.PICK_DATA" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="content" android:mimeType="*/*" />
+
+                <!--data android:scheme="content" android:mimeType="application/vnd.kmp" />
+                <data android:scheme="content" android:mimeType="application/x-vnd.kmp" />
+
+                <data android:scheme="content" android:mimeType="application/octet-stream" />
+                <data android:scheme="content" android:mimeType="application/zip" /-->
+            </intent-filter>
+
+            <!--
+                 Capture file open requests (pathPattern is honoured) where no
+                 MIME type is provided in the Intent.  An Intent with a null
+                 MIME type will never be matched by a filter with a set MIME
+                 type, so we need a second intent-filter if we wish to also
+                 match files with this extension and a non-null MIME type
+                 (even if it is non-null but zero length).
+            -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" android:host="*" />
+
+                <!-- Android's implementation of PatternMatcher for pathPattern limits special characters to '.', '*', and '\\' -->
+                <data android:pathPattern=".*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\..*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.kmp" />
+            </intent-filter>
+
+            <!--
+                 Capture file open requests (pathPattern is honoured) where a
+                 (possibly blank) MIME type is provided in the Intent.  This
+                 filter may only be necessary for supporting ES File Explorer,
+                 which has the probably buggy behaviour of using an Intent
+                 with a MIME type that is set but zero-length.  It's
+                 impossible to match such a type except by using a global
+                 wildcard.
+            -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" android:host="*" android:mimeType="*/*" />
+
+                <!-- Android's implementation of PatternMatcher for pathPattern limits special characters to '.', '*', and '\\' -->
+                <data android:pathPattern=".*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\..*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.kmp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.kmp" />
             </intent-filter>
 
             <intent-filter>

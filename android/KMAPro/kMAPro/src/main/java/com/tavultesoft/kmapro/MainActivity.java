@@ -250,7 +250,18 @@ public class MainActivity extends Activity implements OnKeyboardEventListener, O
     KMKeyboardDownloaderActivity.addKeyboardDownloadEventListener(this);
     PackageActivity.addKeyboardDownloadEventListener(this);
 
-    Intent intent = getIntent();
+    String manufacturers = Build.MANUFACTURER;
+    Intent intent;
+
+    //if (manufacturers.equalsIgnoreCase("samsung")) {
+    //  intent = new Intent("com.sec.android.app.myfiles.PICKD_DATA");
+    // intent.putExtra("CONTENT_TYPE", "*/*");
+    //} else {
+    //  intent = getIntent();
+    //  data = intent.getData();
+    //}
+    //*/
+    intent = getIntent();
     data = intent.getData();
 
     if (data != null) {
