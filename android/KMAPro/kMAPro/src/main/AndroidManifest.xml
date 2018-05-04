@@ -145,6 +145,16 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.kmp" />
             </intent-filter>
 
+            <!-- trying to get Samsung My Files -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Not ideal cause every file goes through Keyman -->
+                <data android:scheme="content" android:host="*" android:mimeType="*/*" android:pathPattern=".*" />
+            </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
